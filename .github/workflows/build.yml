@@ -40,6 +40,7 @@ jobs:
          # Build the project using JFrog CLI
          jf npm install --build-name ${{env.BUILD_NAME}} --build-number ${{github.run_number}}
          jf scan ~/.
+         jf scan ~/home/runner/work/react-node-app/react-node-app/react-bank-api-1.0.21.tgz
          jf npm publish --build-name ${{env.BUILD_NAME}} --build-number ${{github.run_number}}
      - name: Failure check
        run: |
