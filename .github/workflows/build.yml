@@ -32,7 +32,7 @@ jobs:
        run: |
         jf --version
         jf rt ping
-        jf config show
+        # jf config show
      - name: Build and publish
        run: |
          # Configure the project
