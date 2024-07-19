@@ -38,7 +38,6 @@ jobs:
          # Configure the project
          jf npmc --repo-resolve alpha-npm-virtual --repo-deploy alpha-npm-virtual
          # Build the project using JFrog CLI
-         jf audit
          jf npm install --build-name ${{env.BUILD_NAME}} --build-number ${{github.run_number}}
          jf npm publish --build-name ${{env.BUILD_NAME}} --build-number ${{github.run_number}}
      - name: Failure check
@@ -54,6 +53,9 @@ jobs:
      - name: Docker Build 🐳🐸
        run: |
          jf docker build . -t soleng.jfrog.io/alpha-docker-virtual/reactappimage:${{github.run_number}}
+     - name: Docker Scan 🐳🐸
+       run: |
+         jf docker scan soleng.jfrog.io/alpha-docker-virtual/reactappimage:${{github.run_number}}
      - name: Docker Push 🐳🐸
        run: |
           jf docker push soleng.jfrog.io/alpha-docker-virtual/reactappimage:${{github.run_number}}
@@ -74,12 +76,12 @@ jobs:
 
          # promote to Dev
          jf rbp reactApp ${{ github.run_number}} DEV --signing-key=${{ secrets.Key }} --include-repos=alpha-npm-dev-local
-         jf rt set-props "alpha-npm-dev-local/react-bank-api/-/react-bank-api-1.0.9.tgz" "unit.test=pass;integration.test=null;"
+         jf rt set-props "alpha-npm-dev-local/react-bank-api/-/react-bank-api-1.0.23.tgz" "unit.test=pass;integration.test=null;"
          
 
          # Promote to QA
          jf rbp reactApp ${{ github.run_number }} QA --signing-key=${{ secrets.Key }} --include-repos=alpha-npm-qa-local
-         jf rt set-props "alpha-npm-qa-local/react-bank-api/-/react-bank-api-1.0.9.tgz" "unit.test=pass;integration.test=pass;"
+         jf rt set-props "alpha-npm-qa-local/react-bank-api/-/react-bank-api-1.0.23.tgz" "unit.test=pass;integration.test=pass;"
 
          # Promote to PROD
          jf rbp reactApp ${{ github.run_number }} PROD --signing-key=${{ secrets.Key }} --include-repos=alpha-npm-prod-local

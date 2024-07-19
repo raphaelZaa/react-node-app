@@ -1,6 +1,6 @@
 {
    "name": "react-bank-api",
-   "version": "1.0.21",
+   "version": "1.0.23",
    "private": false,
    "description": "react application",
    "publishConfig": {
