@@ -25,7 +25,7 @@ steps:
       jf rt bce '$(Build.DefinitionName)' '$(Build.BuildNumber)'
       jf rt bag '$(Build.DefinitionName)' '$(Build.BuildNumber)'
       jf rt bp '$(Build.DefinitionName)' '$(Build.BuildNumber)'
-      jf rt bs '$(Build.DefinitionName)' '$(Build.BuildNumber)'
+      jf bs '$(Build.DefinitionName)' '$(Build.BuildNumber)'
       
 
 
