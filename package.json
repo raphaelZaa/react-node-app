@@ -1,6 +1,6 @@
 {
    "name": "react-bank-api",
-   "version": "1.0.29",
+   "version": "1.0.30",
    "private": false,
    "description": "dockerize react application",
    "publishConfig": {
@@ -36,7 +36,7 @@
       "module-alias": "^2.2.2",
       "mongodb": "^3.3.4",
       "mongoose": "5.10.12",
-      "nodemailer": "^6.3.1",
+      "nodemailer": "^6.9.16",
       "nodemailer-mailgun-transport": "^1.4.0",
       "nodemon": "^1.19.4",
       "url-slug": "^2.2.0",
