@@ -20,6 +20,10 @@ steps:
     command: 'install'
     artifactoryService: 'Artifactory'
     sourceRepo: 'alpha-npm-virtual'
+    collectBuildInfo: true
+    buildName: '$(Build.DefinitionName)'
+    buildNumber: '$(Build.BuildNumber)'
+    includeEnvVars: true
 
 - task: JfrogCli@1
   inputs:
