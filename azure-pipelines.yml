@@ -21,6 +21,6 @@ steps:
   inputs:
     artifactoryService: 'Artifactory'
     command: |
-      jf npmc --repo-resolve alpha-npm-virtual --repo-deploy alpha-npm-virtual
+      jf rt npmc --repo-resolve alpha-npm-virtual --repo-deploy alpha-npm-virtual
 
 
