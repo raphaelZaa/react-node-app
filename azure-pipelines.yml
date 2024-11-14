@@ -20,8 +20,8 @@ steps:
     jfrogPlatformConnection: 'JFrog Platform V2'
     command: | 
       jf npmc --repo-resolve alpha-npm-virtual --repo-deploy alpha-npm-virtual
-      jf npm install --build-name '$(Build.DefinitionName)' --build-number '$(Build.DefinitionNumber)'
-      jf npm publish --build-name '$(Build.DefinitionName)' --build-number '$(Build.DefinitionNumber)'
+      jf npm install --build-name '$(Build.DefinitionName)' --build-number '$(Build.BuildNumber)'
+      jf npm publish --build-name '$(Build.DefinitionName)' --build-number '$(Build.BuildNumber)'
 
 
 
