@@ -15,12 +15,10 @@ steps:
     versionSpec: '20.x'
   displayName: 'Install Node.js'
 
-
-
-- task: JfrogCli@1
+- task: JfrogCliV2@1
   inputs:
-    artifactoryService: 'Artifactory'
-    command: |
-      jfrog rt npmc --repo-resolve alpha-npm-virtual --repo-deploy alpha-npm-virtual
+    jfrogPlatformConnection: 'JFrog Platform V2'
+    command: 'jf npmc --repo-resolve alpha-npm-virtual --repo-deploy alpha-npm-virtual'
+
 
 
