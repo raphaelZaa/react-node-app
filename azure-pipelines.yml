@@ -15,15 +15,7 @@ steps:
     versionSpec: '20.x'
   displayName: 'Install Node.js'
 
-- task: ArtifactoryNpm@2
-  inputs:
-    command: 'install'
-    artifactoryService: 'Artifactory'
-    sourceRepo: 'alpha-npm-virtual'
-    collectBuildInfo: true
-    buildName: '$(Build.DefinitionName)'
-    buildNumber: '$(Build.BuildNumber)'
-    includeEnvVars: true
+
 
 - task: JfrogCli@1
   inputs:
