@@ -22,11 +22,15 @@ steps:
       jf npmc --repo-resolve alpha-npm-virtual --repo-deploy alpha-npm-virtual
       jf npm install --build-name '$(Build.DefinitionName)' --build-number '$(Build.BuildNumber)'
       jf npm publish --build-name '$(Build.DefinitionName)' --build-number '$(Build.BuildNumber)'
+      jf docker build . -t soleng.jfrog.io/alpha-docker-virtual/reactappimage:'$(Build.BuildNumber)'
+      jf docker push soleng.jfrog.io/alpha-docker-virtual/reactappimage:'$(Build.BuildNumber)'
+      jf docker scan soleng.jfrog.io/alpha-docker-virtual/reactappimage:'$(Build.BuildNumber)'
       jf rt bce '$(Build.DefinitionName)' '$(Build.BuildNumber)'
       jf rt bag '$(Build.DefinitionName)' '$(Build.BuildNumber)'
       jf rt bp '$(Build.DefinitionName)' '$(Build.BuildNumber)'
       jf bs '$(Build.DefinitionName)' '$(Build.BuildNumber)'
       
 
+       
 
 
