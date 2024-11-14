@@ -22,12 +22,11 @@ steps:
       jf npmc --repo-resolve alpha-npm-virtual --repo-deploy alpha-npm-virtual
       jf npm install --build-name '$(Build.DefinitionName)' --build-number '$(Build.BuildNumber)'
       jf npm publish --build-name '$(Build.DefinitionName)' --build-number '$(Build.BuildNumber)'
-      # Collect and store environment variables in the build-info
       jf rt bce '$(Build.DefinitionName)' '$(Build.BuildNumber)'
-      # Collect and store VCS details in the build-info
       jf rt bag '$(Build.DefinitionName)' '$(Build.BuildNumber)'
-      # Publish the build-info to Artifactory
       jf rt bp '$(Build.DefinitionName)' '$(Build.BuildNumber)'
-      # Scan the published build-info with Xray
       jf rt bs '$(Build.DefinitionName)' '$(Build.BuildNumber)'
+      
+
+
 
