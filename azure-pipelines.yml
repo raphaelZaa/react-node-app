@@ -22,11 +22,6 @@ steps:
       jf npmc --repo-resolve alpha-npm-virtual --repo-deploy alpha-npm-virtual
       jf npm install --build-name '$(Build.DefinitionName)' --build-number '$(Build.BuildNumber)'
       jf npm publish --build-name '$(Build.DefinitionName)' --build-number '$(Build.BuildNumber)'
-
-- task: JfrogCliV2@1
-  inputs:
-    jfrogPlatformConnection: 'JFrog Platform V2'
-    command: |
       # Collect and store environment variables in the build-info
       jf rt bce '$(Build.DefinitionName)' '$(Build.BuildNumber)'
       # Collect and store VCS details in the build-info
@@ -35,5 +30,4 @@ steps:
       jf rt bp '$(Build.DefinitionName)' '$(Build.BuildNumber)'
       # Scan the published build-info with Xray
       jf rt bs '$(Build.DefinitionName)' '$(Build.BuildNumber)'
-
 
