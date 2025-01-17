@@ -22,7 +22,7 @@ exports.register = async (req, res, next) => {
       await user.save();
 
       if (!user) {
-         throwError('Problems creating a user', 422);
+         throwError('Problem creating a user', 422);
       }
 
       // Send welcome email
@@ -50,7 +50,7 @@ exports.login = async (req, res, next) => {
       let isPassOk = await bcrypt.compare(password, user.password);
 
       if (!isPassOk) {
-         throwError('Wrong password!', 401);
+         throwError('Wrong password!!', 401);
       }
 
       const { _id } = user;
