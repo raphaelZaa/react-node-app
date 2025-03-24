@@ -1,6 +1,6 @@
 {
    "name": "react-bank-api",
-   "version": "2.0.5",
+   "version": "2.0.6",
    "private": false,
    "description": "dockerize react application with auth and test",
    "publishConfig": {
@@ -37,7 +37,8 @@
       "mongodb": "^3.3.3",
       "mongoose": "^5.7.7",
       "nodemailer": "6.10.0",
-      "nodemailer-mailgun-transport": "2.1.5"
+      "nodemailer-mailgun-transport": "2.1.5",
+      "istanbul-lib-instrument":"5.2.1"
    },
    "_moduleAliases": {
       "@config": "config",
