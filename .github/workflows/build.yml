@@ -40,6 +40,7 @@ jobs:
          # Build the project using JFrog CLI
          jf npm install --build-name ${{env.BUILD_NAME}} --build-number ${{github.run_number}}
          jf npm publish --build-name ${{env.BUILD_NAME}} --build-number ${{github.run_number}}
+         npm test -- --json --outputFile=jest-report-${{github.run_number}}.json
      - name: Failure check
        run: |
          echo "JFROG_BUILD_STATUS=FAIL" >> $GITHUB_ENV
@@ -85,4 +86,3 @@ jobs:
 
          # Promote to PROD
          jf rbp reactApp ${{ github.run_number }} PROD --signing-key=${{ secrets.Key }} --include-repos=alpha-npm-prod-local
-
