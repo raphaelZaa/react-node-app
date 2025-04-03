@@ -1,8 +1,8 @@
 {
    "name": "react-bank-api",
-   "version": "2.0.7",
+   "version": "2.0.74",
    "private": false,
-   "description": "dockerize react application with auth and test",
+   "description": "dockerize react application with auth and tests",
    "publishConfig": {
       "registry": "https://soleng.jfrog.io/artifactory/api/npm/alpha-npm-virtual/"
    },
