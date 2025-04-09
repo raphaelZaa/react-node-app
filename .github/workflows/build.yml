@@ -41,25 +41,6 @@ jobs:
          jf npm install --build-name ${{env.BUILD_NAME}} --build-number ${{github.run_number}}
          jf npm publish --build-name ${{env.BUILD_NAME}} --build-number ${{github.run_number}}
         #  npm test -- --json --outputFile=jest-report-${{github.run_number}}.json
-     - name: Failure check
-       run: |
-         echo "JFROG_BUILD_STATUS=FAIL" >> $GITHUB_ENV
-       if: failure()
-     - name: Login to JFrog Docker repo
-       uses: docker/login-action@v3
-       with:
-          registry: ${{ secrets.JF_URL }}
-          username: ${{ secrets.JF_USER }}
-          password: ${{ secrets.JF_PASSWORD }}
-     - name: Docker Build 🐳🐸
-       run: |
-         jf docker build . -t soleng.jfrog.io/alpha-docker-virtual/reactappimage:${{github.run_number}}
-     - name: Docker Scan 🐳🐸
-       run: |
-         jf docker scan soleng.jfrog.io/alpha-docker-virtual/reactappimage:${{github.run_number}}
-     - name: Docker Push 🐳🐸
-       run: |
-          jf docker push soleng.jfrog.io/alpha-docker-virtual/reactappimage:${{github.run_number}}
       # Call the reusable workflow
      - name: Docker Build & Push
        uses: ./.github/workflows/docker-build-push.yml
@@ -93,3 +74,8 @@ jobs:
 
          # Promote to PROD
          jf rbp reactApp ${{ github.run_number }} PROD --signing-key=${{ secrets.Key }} --include-repos=alpha-npm-prod-local
+
+     - name: Failure check
+       run: |
+         echo "JFROG_BUILD_STATUS=FAIL" >> $GITHUB_ENV
+       if: failure()
