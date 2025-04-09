@@ -41,41 +41,48 @@ jobs:
          jf npm install --build-name ${{env.BUILD_NAME}} --build-number ${{github.run_number}}
          jf npm publish --build-name ${{env.BUILD_NAME}} --build-number ${{github.run_number}}
         #  npm test -- --json --outputFile=jest-report-${{github.run_number}}.json
-      # Call the reusable workflow
-     - name: Docker Build & Push
-       uses: ./.github/workflows/docker-build-push.yml
-       with:
-        image_name: "reactappimage"
-        build_number: ${{ github.run_number }}  
-     - name: Publish build build-info
-       run: |
-         # Collect and store environment variables in the build-info
-         jf rt bce ${{env.BUILD_NAME}} ${{github.run_number}}
-         # Collect and store VCS details in the build-info
-         jf rt bag ${{env.BUILD_NAME}} ${{github.run_number}}
-         # Publish the build-info to Artifactory
-         jf rt bp ${{env.BUILD_NAME}} ${{github.run_number}}
-         # Scan the published build-info with Xray
-         jf rt bs ${{env.BUILD_NAME}} ${{github.run_number}}
-       if: always()
-     - name: Create Release Bundle for RLM
-       run: |
-         jf rbc --builds=json/builds-spec.json --signing-key=${{ secrets.Key }} reactApp ${{github.run_number}}
 
-         # promote to Dev
-         jf rbp reactApp ${{ github.run_number}} DEV --signing-key=${{ secrets.Key }} --include-repos=alpha-npm-dev-local
-         jf rt set-props "alpha-npm-dev-local/react-bank-api/-/react-bank-api-1.0.23.tgz" "unit.test=pass;integration.test=null;"
+# Call the reusable workflow
+ docker-build-push:
+    uses: ./.github/workflows/docker-build-push.yml
+    needs: npm-build-and-publish
+    with:
+      image_name: "reactappimage"
+      build_number: ${{ github.run_number }}
+
+  
+     
+     
+     
+     # - name: Publish build build-info
+     #   run: |
+     #     # Collect and store environment variables in the build-info
+     #     jf rt bce ${{env.BUILD_NAME}} ${{github.run_number}}
+     #     # Collect and store VCS details in the build-info
+     #     jf rt bag ${{env.BUILD_NAME}} ${{github.run_number}}
+     #     # Publish the build-info to Artifactory
+     #     jf rt bp ${{env.BUILD_NAME}} ${{github.run_number}}
+     #     # Scan the published build-info with Xray
+     #     jf rt bs ${{env.BUILD_NAME}} ${{github.run_number}}
+     #   if: always()
+     # - name: Create Release Bundle for RLM
+     #   run: |
+     #     jf rbc --builds=json/builds-spec.json --signing-key=${{ secrets.Key }} reactApp ${{github.run_number}}
+
+     #     # promote to Dev
+     #     jf rbp reactApp ${{ github.run_number}} DEV --signing-key=${{ secrets.Key }} --include-repos=alpha-npm-dev-local
+     #     jf rt set-props "alpha-npm-dev-local/react-bank-api/-/react-bank-api-1.0.23.tgz" "unit.test=pass;integration.test=null;"
          
 
-         # Promote to QA
-         jf rbp reactApp ${{ github.run_number }} QA --signing-key=${{ secrets.Key }} --include-repos=alpha-npm-qa-local
+     #     # Promote to QA
+     #     jf rbp reactApp ${{ github.run_number }} QA --signing-key=${{ secrets.Key }} --include-repos=alpha-npm-qa-local
 
-         jf rt set-props "alpha-npm-qa-local/react-bank-api/-/react-bank-api-1.0.23.tgz" "unit.test=pass;integration.test=pass;"
+     #     jf rt set-props "alpha-npm-qa-local/react-bank-api/-/react-bank-api-1.0.23.tgz" "unit.test=pass;integration.test=pass;"
 
-         # Promote to PROD
-         jf rbp reactApp ${{ github.run_number }} PROD --signing-key=${{ secrets.Key }} --include-repos=alpha-npm-prod-local
+     #     # Promote to PROD
+     #     jf rbp reactApp ${{ github.run_number }} PROD --signing-key=${{ secrets.Key }} --include-repos=alpha-npm-prod-local
 
-     - name: Failure check
-       run: |
-         echo "JFROG_BUILD_STATUS=FAIL" >> $GITHUB_ENV
-       if: failure()
+     # - name: Failure check
+     #   run: |
+     #     echo "JFROG_BUILD_STATUS=FAIL" >> $GITHUB_ENV
+     #   if: failure()
