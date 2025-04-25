@@ -34,6 +34,13 @@ jobs:
         jf --version
         # jf rt ping
         # jf config show
+      
+     - name: "Curation: audit" # https://docs.jfrog-applications.jfrog.io/jfrog-applications/jfrog-cli/cli-for-jfrog-security/cli-for-jfrog-curation
+       timeout-minutes: 15    # ref https://docs.github.com/en/actions/writing-workflows/workflow-syntax-for-github-actions#jobsjob_idstepstimeout-minutes
+       continue-on-error: true    # ref: https://docs.github.com/en/actions/writing-workflows/workflow-syntax-for-github-actions#jobsjob_idstepscontinue-on-error
+       run: |
+        jf ca --format=table --threads=10
+     
      - name: Build and publish
        run: |
          # Configure the project
@@ -54,21 +61,32 @@ jobs:
       JF_URL: ${{ secrets.JF_URL }}
       JF_USER: ${{ secrets.JF_USER }}
       JF_PASSWORD: ${{ secrets.JF_PASSWORD }}
+      HOST: ${{ secrets.HOST }}
  
  publish-build-build-info:
     runs-on: ubuntu-latest
     needs: docker-build-push
     steps:
+      - name: JFrog CLI setup 🐸
+        uses: jfrog/setup-jfrog-cli@v4
+        env:
+         JF_URL: ${{ secrets.JF_URL }}
+         JF_PASSWORD: ${{ secrets.JF_PASSWORD }}
+         JF_USER: ${{secrets.JF_USER}}
+         JF_ACCESS_TOKEN: ${{secrets.JF_ACCESS_TOKEN}}
+         DOCKER_JF_RT_REPO: ${{secrets.DOCKER_JF_RT_REPO}}
+         NPM_JF_RT_REPO: ${{secrets.NPM_JF_RT_REPO}}
+         HOST: ${{secrets.HOST}}
       - name: Do something after everything is done
         run: |
-          # Collect and store environment variables in the build-info
-          jf rt bce ${{env.BUILD_NAME}} ${{github.run_number}}
-          # Collect and store VCS details in the build-info
-          jf rt bag ${{env.BUILD_NAME}} ${{github.run_number}}
-          # Publish the build-info to Artifactory
-          jf rt bp ${{env.BUILD_NAME}} ${{github.run_number}}
-          # Scan the published build-info with Xray
-          jf rt bs ${{env.BUILD_NAME}} ${{github.run_number}}
+         # Collect and store environment variables in the build-info
+         jf rt bce ${{env.BUILD_NAME}} ${{github.run_number}}
+         # Collect and store VCS details in the build-info
+         jf rt bag ${{env.BUILD_NAME}} ${{github.run_number}}
+         # Publish the build-info to Artifactory
+         jf rt bp ${{env.BUILD_NAME}} ${{github.run_number}}
+         # Scan the published build-info with Xray
+         jf rt bs ${{env.BUILD_NAME}} ${{github.run_number}}
         if: always()
      
      
