@@ -46,12 +46,19 @@ jobs:
        run: |
         jf ca --format=table --threads=10
      
-     - name: Build and publish
+     - name: Build and publish Artifact
        run: |
          # Build the project using JFrog CLI
          jf npm install --build-name ${{env.BUILD_NAME}} --build-number ${{github.run_number}}
          jf npm publish --build-name ${{env.BUILD_NAME}} --build-number ${{github.run_number}}
         #  npm test -- --json --outputFile=jest-report-${{github.run_number}}.json
+
+     - name: Collect the build-info
+       run: |
+         # Collect and store environment variables in the build-info
+         jf rt bce ${{env.BUILD_NAME}} ${{github.run_number}}
+         # Collect and store VCS details in the build-info
+         jf rt bag ${{env.BUILD_NAME}} ${{github.run_number}}
 
  # Call the reusable workflow
  docker-build-push:
@@ -83,10 +90,6 @@ jobs:
          NPM_JF_RT_REPO: ${{secrets.NPM_JF_RT_REPO}}
       - name: Do something after everything is done
         run: |
-         # Collect and store environment variables in the build-info
-         jf rt bce ${{env.BUILD_NAME}} ${{github.run_number}}
-         # Collect and store VCS details in the build-info
-         jf rt bag ${{env.BUILD_NAME}} ${{github.run_number}}
          # Publish the build-info to Artifactory
          jf rt bp ${{env.BUILD_NAME}} ${{github.run_number}}
          # Scan the published build-info with Xray
