@@ -40,7 +40,7 @@ jobs:
 
       - name: Build Docker Image 🐳
         run: |
-          echo "${{ secrets.HOST }}"
+          #echo "${{ secrets.HOST }}"
           jf docker build . -t soleng.jfrog.io/alpha-docker-virtual/${{ inputs.image_name }}:${{ inputs.build_number }}
           
 
