@@ -43,7 +43,7 @@ jobs:
          jf npm publish --build-name ${{env.BUILD_NAME}} --build-number ${{github.run_number}}
         #  npm test -- --json --outputFile=jest-report-${{github.run_number}}.json
 
-# Call the reusable workflow
+ # Call the reusable workflow
  docker-build-push:
     uses: ./.github/workflows/docker-build-push.yml
     needs: npm-build-and-publish
@@ -54,21 +54,25 @@ jobs:
       JF_URL: ${{ secrets.JF_URL }}
       JF_USER: ${{ secrets.JF_USER }}
       JF_PASSWORD: ${{ secrets.JF_PASSWORD }}
-  
+ 
+ publish-build-build-info:
+    runs-on: ubuntu-latest
+    needs: docker-build-push
+    steps:
+      - name: Do something after everything is done
+        run: |
+          # Collect and store environment variables in the build-info
+          jf rt bce ${{env.BUILD_NAME}} ${{github.run_number}}
+          # Collect and store VCS details in the build-info
+          jf rt bag ${{env.BUILD_NAME}} ${{github.run_number}}
+          # Publish the build-info to Artifactory
+          jf rt bp ${{env.BUILD_NAME}} ${{github.run_number}}
+          # Scan the published build-info with Xray
+          jf rt bs ${{env.BUILD_NAME}} ${{github.run_number}}
+        if: always()
      
      
-     
-     # - name: Publish build build-info
-     #   run: |
-     #     # Collect and store environment variables in the build-info
-     #     jf rt bce ${{env.BUILD_NAME}} ${{github.run_number}}
-     #     # Collect and store VCS details in the build-info
-     #     jf rt bag ${{env.BUILD_NAME}} ${{github.run_number}}
-     #     # Publish the build-info to Artifactory
-     #     jf rt bp ${{env.BUILD_NAME}} ${{github.run_number}}
-     #     # Scan the published build-info with Xray
-     #     jf rt bs ${{env.BUILD_NAME}} ${{github.run_number}}
-     #   if: always()
+
      # - name: Create Release Bundle for RLM
      #   run: |
      #     jf rbc --builds=json/builds-spec.json --signing-key=${{ secrets.Key }} reactApp ${{github.run_number}}
