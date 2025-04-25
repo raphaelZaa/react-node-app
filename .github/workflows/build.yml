@@ -76,7 +76,6 @@ jobs:
          JF_ACCESS_TOKEN: ${{secrets.JF_ACCESS_TOKEN}}
          DOCKER_JF_RT_REPO: ${{secrets.DOCKER_JF_RT_REPO}}
          NPM_JF_RT_REPO: ${{secrets.NPM_JF_RT_REPO}}
-         HOST: ${{secrets.HOST}}
       - name: Do something after everything is done
         run: |
          # Collect and store environment variables in the build-info
