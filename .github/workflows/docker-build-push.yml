@@ -40,10 +40,10 @@ jobs:
 
       - name: Build Docker Image 🐳
         run: |
-          jf docker build . -t ${{ secrets.JF_URL }}/alpha-docker-virtual/${{ inputs.image_name }}:${{ inputs.build_number }}
+          jf docker build . -t ${{ secrets.HOST }}/alpha-docker-virtual/${{ inputs.image_name }}:${{ inputs.build_number }}
           
 
       - name: Push Docker Image to JFrog 🐳
         run: |
-          jf docker push ${{ secrets.JF_URL }}/alpha-docker-virtual/${{ inputs.image_name }}:${{ inputs.build_number }}
+          jf docker push ${{ secrets.HOST }}/alpha-docker-virtual/${{ inputs.image_name }}:${{ inputs.build_number }}
         
