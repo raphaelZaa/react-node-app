@@ -59,6 +59,7 @@ jobs:
          jf rt bce ${{env.BUILD_NAME}} ${{github.run_number}}
          # Collect and store VCS details in the build-info
          jf rt bag ${{env.BUILD_NAME}} ${{github.run_number}}
+         jf rt bs ${{env.BUILD_NAME}} ${{github.run_number}}
 
  # Call the reusable workflow
  docker-build-push:
