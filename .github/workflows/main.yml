@@ -19,4 +19,4 @@ jobs:
           JF_URL: https://${{ secrets.JF_URL }}
         with:
           # Name of the OIDC provider as specified on the OIDC integration page in the JFrog Platform
-          oidc-provider-name: raphaelz-test      
+          oidc-provider-name: raphaelz-oidc      
