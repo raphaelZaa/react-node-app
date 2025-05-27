@@ -34,7 +34,7 @@ jobs:
         NPM_JF_RT_REPO: ${{secrets.NPM_JF_RT_REPO}}
        with:
         oidc-provider-name: mpatel-oidc
-        version: latest
+
       
      - name: Config NPM global
        run: |
