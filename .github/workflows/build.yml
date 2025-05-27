@@ -35,11 +35,6 @@ jobs:
        with:
         oidc-provider-name: mpatel-oidc
         version: latest
-     - name: Health check JFrog Artifactory instance 🐸
-       run: |
-        jf --version
-        # jf rt ping
-        # jf config show
       
      - name: Config NPM global
        run: |
