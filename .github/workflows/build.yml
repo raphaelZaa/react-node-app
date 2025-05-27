@@ -33,7 +33,7 @@ jobs:
         DOCKER_JF_RT_REPO: ${{secrets.DOCKER_JF_RT_REPO}}
         NPM_JF_RT_REPO: ${{secrets.NPM_JF_RT_REPO}}
        with:
-        oidc-provider-name: mpatel-oidc-v2
+        oidc-provider-name: mpatel-oidc
         version: latest
      - name: Health check JFrog Artifactory instance 🐸
        run: |
